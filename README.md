@@ -104,5 +104,5 @@ describe('Login functionality', () => {
 
 ## Author
 
-Gabriella Maas  
+Gabriella Maas ˙⋆✮
 QA Engineer | Test Automation | Cypress
