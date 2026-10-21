@@ -1,14 +1,25 @@
 import loginPage from '../pages/loginPage'
+import inventoryPage from '../pages/inventoryPage'
 
 describe('Login functionality', () => {
-
-  it('should login successfully with valid credentials', () => {
+  beforeEach(() => {
+    cy.fixture('users').as('users')
     loginPage.visit()
-    loginPage.fillUsername('standard_user')
-    loginPage.fillPassword('secret_sauce')
-    loginPage.submit()
-
-    cy.url().should('include', '/inventory.html')
   })
 
+  it('should login successfully with valid credentials', function () {
+    const { username, password } = this.users.standard
+    loginPage.login(username, password)
+
+    inventoryPage.assertIsOpen()
+  })
+
+  it('should logout and return to the login page', function () {
+    const { username, password } = this.users.standard
+    loginPage.login(username, password)
+    inventoryPage.logout()
+
+    cy.url().should('eq', `${Cypress.config('baseUrl')}/`)
+    loginPage.elements.submit().should('be.visible')
+  })
 })
